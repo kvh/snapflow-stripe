@@ -1,0 +1,93 @@
+name: StripeCharge
+version: 1
+description: Stripe charge object
+unique on:
+  - id
+on conflict: ReplaceWithNewer
+fields:
+  amount:
+    type: BigInteger
+  amount_captured:
+    type: BigInteger
+  amount_refunded:
+    type: BigInteger
+  application:
+    type: UnicodeText
+  application_fee:
+    type: UnicodeText
+  application_fee_amount:
+    type: UnicodeText
+  balance_transaction:
+    type: UnicodeText
+  billing_details:
+    type: JSON
+  calculated_statement_descriptor:
+    type: UnicodeText
+  captured:
+    type: Boolean
+  created:
+    type: BigInteger
+  currency:
+    type: UnicodeText
+  customer:
+    type: UnicodeText
+  description:
+    type: UnicodeText
+  disputed:
+    type: Boolean
+  failure_code:
+    type: UnicodeText
+  failure_message:
+    type: UnicodeText
+  fraud_details:
+    type: JSON
+  id:
+    type: UnicodeText
+  invoice:
+    type: UnicodeText
+  livemode:
+    type: Boolean
+  metadata:
+    type: JSON
+  object:
+    type: UnicodeText
+  on_behalf_of:
+    type: UnicodeText
+  order:
+    type: UnicodeText
+  outcome:
+    type: UnicodeText
+  paid:
+    type: Boolean
+  payment_intent:
+    type: UnicodeText
+  payment_method:
+    type: UnicodeText
+  payment_method_details:
+    type: JSON
+  receipt_email:
+    type: UnicodeText
+  receipt_number:
+    type: UnicodeText
+  receipt_url:
+    type: UnicodeText
+  refunded:
+    type: Boolean
+  refunds:
+    type: JSON
+  review:
+    type: UnicodeText
+  shipping:
+    type: UnicodeText
+  source_transfer:
+    type: UnicodeText
+  statement_descriptor:
+    type: UnicodeText
+  statement_descriptor_suffix:
+    type: UnicodeText
+  status:
+    type: UnicodeText
+  transfer_data:
+    type: UnicodeText
+  transfer_group:
+    type: UnicodeText
