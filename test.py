@@ -12,18 +12,14 @@ def test_stripe(api_key: str):
     g = Graph(env)
     s = env.add_storage(get_tmp_sqlite_db_url())
     env.add_module(snapflow_stripe)
+
     # Initial graph
-    g.create_node(
-        "stripe_charges_raw",
+    raw_charges = g.create_node(
         "stripe.extract_charges",
         config={"api_key": api_key},
     )
-    g.create_node(
-        "stripe_charges", "stripe.clean_charges", upstream="stripe_charges_raw"
-    )
-    output = env.produce(
-        "stripe_charges", g, target_storage=s, node_timelimit_seconds=5
-    )
+    clean_charges = g.create_node("stripe.clean_charges", upstream=raw_charges)
+    output = env.produce(clean_charges, g, target_storage=s, node_timelimit_seconds=5)
     records = output.as_records_list()
     assert len(records) > 100
     assert records[0]["amount"] == 100
