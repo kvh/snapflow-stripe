@@ -1,10 +1,10 @@
 Stripe module for the [snapflow](https://github.com/kvh/snapflow) framework.
 
-### Install
+#### Install
 
 `pip install snapflow-stripe` or `poetry add snapflow-stripe`
 
-### Example
+#### Example
 
 ```python
 from snapflow import Graph, produce
