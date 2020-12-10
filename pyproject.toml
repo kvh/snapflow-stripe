@@ -3,7 +3,7 @@ authors = ["Ken Van Haren <kenvanharen@gmail.com>"]
 description = "Snapflow module for Stripe"
 license = "BSD-3-Clause"
 name = "snapflow-stripe"
-version = "0.1.0"
+version = "0.1.1"
 
 [tool.poetry.dependencies]
 python = "^3.7"

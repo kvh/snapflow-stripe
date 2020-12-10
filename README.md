@@ -1,6 +1,4 @@
-## Snapflow module for Stripe
-
-[https://github.com/kvh/snapflow](https://github.com/kvh/snapflow)
+Stripe module for the [snapflow](https://github.com/kvh/snapflow) framework.
 
 ### Install
 
