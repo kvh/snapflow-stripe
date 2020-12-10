@@ -1,7 +1,13 @@
+from typing import TypeVar
+
 from snapflow import SnapflowModule
 
 from .pipes.clean_charges import clean_charges
-from .pipes.extract_stripe_charges import extract_charges
+from .pipes.extract_charges import extract_charges
+
+# Make TypeVars for all schemas
+StripeCharge = TypeVar("StripeCharge")
+StripeChargeRaw = TypeVar("StripeChargeRaw")
 
 module = SnapflowModule(
     "stripe",

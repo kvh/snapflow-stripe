@@ -30,7 +30,7 @@ class ExtractStripeChargesState:
     config_class=ExtractStripeConfig,
     state_class=ExtractStripeChargesState,
 )
-def extract_charges(ctx: PipeContext) -> RecordsListGenerator[stripe.StripeChargeRaw]:
+def extract_charges(ctx: PipeContext) -> RecordsListGenerator[StripeChargeRaw]:
     """
     Stripe doesn't have a way to request by "updated at" times, so we must
     refresh old records according to our own logic. We use a "curing window"
