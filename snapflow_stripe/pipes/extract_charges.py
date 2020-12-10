@@ -2,12 +2,17 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
+from typing import TYPE_CHECKING
 
 from requests.auth import HTTPBasicAuth
 from snapflow import PipeContext, pipe
 from snapflow.core.data_formats import RecordsList, RecordsListGenerator
 from snapflow.core.extraction.connection import JsonHttpApiConnection
 from snapflow.utils.common import ensure_datetime, utcnow
+
+if TYPE_CHECKING:
+    from snapflow_stripe import StripeChargeRaw
+
 
 STRIPE_API_BASE_URL = "https://api.stripe.com/v1/"
 MIN_DATE = datetime(2006, 1, 1)
