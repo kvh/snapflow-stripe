@@ -4,8 +4,7 @@ from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 
 from requests.auth import HTTPBasicAuth
-
-from snapflow import pipe, PipeContext
+from snapflow import PipeContext, pipe
 from snapflow.core.data_formats import RecordsList, RecordsListGenerator
 from snapflow.core.extraction.connection import JsonHttpApiConnection
 from snapflow.utils.common import ensure_datetime, utcnow

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import pandas as pd
-from snapflow import pipe, DataBlock, sql_pipe
+from snapflow import DataBlock, pipe, sql_pipe
 
 
 @pipe(

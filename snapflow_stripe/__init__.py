@@ -1,8 +1,7 @@
 from snapflow import SnapflowModule
 
-from .pipes.extract_stripe_charges import extract_charges
 from .pipes.clean_charges import clean_charges
-
+from .pipes.extract_stripe_charges import extract_charges
 
 module = SnapflowModule(
     "stripe",
