@@ -1,0 +1,99 @@
+name: StripeChargeRaw
+version: 1
+description: Raw Stripe charge object (no values modified)
+unique on:
+  - id
+on conflict: ReplaceWithNewer
+fields:
+  amount:
+    type: BigInteger
+  amount_captured:
+    type: BigInteger
+  amount_refunded:
+    type: BigInteger
+  application:
+    type: Unicode(255)
+  application_fee:
+    type: Unicode(255)
+  application_fee_amount:
+    type: Unicode(255)
+  balance_transaction:
+    type: Unicode(255)
+  billing_details:
+    type: JSON
+  calculated_statement_descriptor:
+    type: Unicode(255)
+  captured:
+    type: Boolean
+  created:
+    type: BigInteger
+  currency:
+    type: Unicode(255)
+  customer:
+    type: Unicode(255)
+  description:
+    type: Unicode(255)
+  destination:
+    type: Unicode(255)
+  dispute:
+    type: Unicode(255)
+  disputed:
+    type: Boolean
+  failure_code:
+    type: Unicode(255)
+  failure_message:
+    type: Unicode(255)
+  fraud_details:
+    type: JSON
+  id:
+    type: Unicode(255)
+  invoice:
+    type: Unicode(255)
+  livemode:
+    type: Boolean
+  metadata:
+    type: JSON
+  object:
+    type: Unicode(255)
+  on_behalf_of:
+    type: Unicode(255)
+  order:
+    type: Unicode(255)
+  outcome:
+    type: Unicode(255)
+  paid:
+    type: Boolean
+  payment_intent:
+    type: Unicode(255)
+  payment_method:
+    type: Unicode(255)
+  payment_method_details:
+    type: JSON
+  receipt_email:
+    type: Unicode(255)
+  receipt_number:
+    type: Unicode(255)
+  receipt_url:
+    type: Unicode(255)
+  refunded:
+    type: Boolean
+  refunds:
+    type: JSON
+  review:
+    type: Unicode(255)
+  shipping:
+    type: Unicode(255)
+  source:
+    type: JSON
+  source_transfer:
+    type: Unicode(255)
+  statement_descriptor:
+    type: Unicode(255)
+  statement_descriptor_suffix:
+    type: Unicode(255)
+  status:
+    type: Unicode(255)
+  transfer_data:
+    type: Unicode(255)
+  transfer_group:
+    type: Unicode(255)

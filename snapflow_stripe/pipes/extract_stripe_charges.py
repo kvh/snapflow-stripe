@@ -3,13 +3,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 
-from dags.core.data_formats import RecordsList, RecordsListGenerator
-from dags.core.extraction.connection import JsonHttpApiConnection
-from dags.core.pipe import pipe
-from dags.core.runnable import PipeContext
-from dags.utils.common import utcnow
 from requests.auth import HTTPBasicAuth
 
+from snapflow import pipe, PipeContext
+from snapflow.core.data_formats import RecordsList, RecordsListGenerator
+from snapflow.core.extraction.connection import JsonHttpApiConnection
+from snapflow.utils.common import ensure_datetime, utcnow
 
 STRIPE_API_BASE_URL = "https://api.stripe.com/v1/"
 MIN_DATE = datetime(2006, 1, 1)
@@ -18,7 +17,7 @@ MIN_DATE = datetime(2006, 1, 1)
 @dataclass
 class ExtractStripeConfig:
     api_key: str
-    curing_window_days: int = 365
+    curing_window_days: int = 90
 
 
 @dataclass
@@ -32,25 +31,28 @@ class ExtractStripeChargesState:
     config_class=ExtractStripeConfig,
     state_class=ExtractStripeChargesState,
 )
-def extract_charges(ctx: PipeContext) -> RecordsListGenerator:
+def extract_charges(ctx: PipeContext) -> RecordsListGenerator[stripe.StripeChargeRaw]:
     """
-    Stripe doesn't have a way to request by "updated at" times, so we must 
+    Stripe doesn't have a way to request by "updated at" times, so we must
     refresh old records according to our own logic. We use a "curing window"
     to re-extract records up to one year (the default) old.
     """
     api_key = ctx.get_config_value("api_key")
-    curing_window_days = ctx.get_config_value("curing_window_days")
-    latest_extracted_at  = ctx.get_state_value("latest_extracted_at")
+    curing_window_days = ctx.get_config_value("curing_window_days", 90)
+    latest_extracted_at = ctx.get_state_value("latest_extracted_at")
+    latest_extracted_at = ensure_datetime(latest_extracted_at)
     params = {
         "limit": 100,
     }
     if latest_extracted_at:
         # Extract only more recent than latest extracted at date, offset by a curing window
-        # (default 1 year) to capture updates to objects (refunds, etc)
-        params["created"] = {"gt": int((latest_extracted_at - timedelta(days=curing_window_days)).timestamp)}
+        # (default 90 days) to capture updates to objects (refunds, etc)
+        params["created[gt]"] = int(
+            (latest_extracted_at - timedelta(days=curing_window_days)).timestamp()
+        )
     conn = JsonHttpApiConnection()
     endpoint_url = STRIPE_API_BASE_URL + "charges"
-    while True:
+    while ctx.should_continue():
         resp = conn.get(endpoint_url, params, auth=HTTPBasicAuth(api_key, ""))
         json_resp = resp.json()
         assert isinstance(json_resp, dict)
@@ -65,5 +67,3 @@ def extract_charges(ctx: PipeContext) -> RecordsListGenerator:
         params["starting_after"] = latest_object_id
     # We only update state if we have fetched EVERYTHING available as of now
     ctx.emit_state_value("latest_extracted_at", utcnow())
-
-

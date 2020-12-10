@@ -1,13 +1,13 @@
 [tool.poetry]
 authors = ["Ken Van Haren <kenvanharen@gmail.com>"]
-description = "Dags module for Stripe"
+description = "Snapflow module for Stripe"
 license = "BSD-3-Clause"
-name = "dags-stripe"
+name = "snapflow-stripe"
 version = "0.1.0"
 
 [tool.poetry.dependencies]
-dags = "^0.1"
 python = "^3.7"
+snapflow = "^0.1"
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"

@@ -1,26 +1,32 @@
 from pprint import pprint
 
-from dags import Environment
-from dags.core.graph import Graph
-from dags.testing.utils import get_tmp_sqlite_db_url
+from snapflow import Environment
+from snapflow.core.graph import Graph
+from snapflow.testing.utils import get_tmp_sqlite_db_url
 
 
 def test_stripe(api_key: str):
-    import dags_stripe
+    import snapflow_stripe
 
     env = Environment(metadata_storage="sqlite://")
     g = Graph(env)
     s = env.add_storage(get_tmp_sqlite_db_url())
-    env.add_module(dags_stripe)
+    env.add_module(snapflow_stripe)
     # Initial graph
-    g.add_node(
-        "stripe_charges",
+    g.create_node(
+        "stripe_charges_raw",
         "stripe.extract_charges",
         config={"api_key": api_key},
     )
-    output = env.produce(g, "stripe_charges", target_storage=s)
+    g.create_node(
+        "stripe_charges", "stripe.clean_charges", upstream="stripe_charges_raw"
+    )
+    output = env.produce(
+        "stripe_charges", g, target_storage=s, node_timelimit_seconds=5
+    )
     records = output.as_records_list()
-    pprint(records)
+    assert len(records) > 100
+    assert records[0]["amount"] == 100
 
 
 if __name__ == "__main__":

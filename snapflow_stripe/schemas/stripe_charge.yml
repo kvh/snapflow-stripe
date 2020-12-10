@@ -1,6 +1,6 @@
 name: StripeCharge
 version: 1
-description: Stripe charge object
+description: Stripe charge object (values conformed)
 unique on:
   - id
 on conflict: ReplaceWithNewer
@@ -12,82 +12,92 @@ fields:
   amount_refunded:
     type: BigInteger
   application:
-    type: UnicodeText
+    type: Unicode(255)
   application_fee:
-    type: UnicodeText
+    type: Unicode(255)
   application_fee_amount:
-    type: UnicodeText
+    type: Unicode(255)
   balance_transaction:
-    type: UnicodeText
+    type: Unicode(255)
   billing_details:
     type: JSON
   calculated_statement_descriptor:
-    type: UnicodeText
+    type: Unicode(255)
   captured:
     type: Boolean
   created:
-    type: BigInteger
+    type: DateTime
   currency:
-    type: UnicodeText
+    type: Unicode(255)
   customer:
-    type: UnicodeText
+    type: Unicode(255)
   description:
-    type: UnicodeText
+    type: Unicode(255)
+  destination:
+    type: Unicode(255)
+  dispute:
+    type: Unicode(255)
   disputed:
     type: Boolean
   failure_code:
-    type: UnicodeText
+    type: Unicode(255)
   failure_message:
-    type: UnicodeText
+    type: Unicode(255)
   fraud_details:
     type: JSON
   id:
-    type: UnicodeText
+    type: Unicode(255)
   invoice:
-    type: UnicodeText
+    type: Unicode(255)
   livemode:
     type: Boolean
   metadata:
     type: JSON
   object:
-    type: UnicodeText
+    type: Unicode(255)
   on_behalf_of:
-    type: UnicodeText
+    type: Unicode(255)
   order:
-    type: UnicodeText
+    type: Unicode(255)
   outcome:
-    type: UnicodeText
+    type: Unicode(255)
   paid:
     type: Boolean
   payment_intent:
-    type: UnicodeText
+    type: Unicode(255)
   payment_method:
-    type: UnicodeText
+    type: Unicode(255)
   payment_method_details:
     type: JSON
   receipt_email:
-    type: UnicodeText
+    type: Unicode(255)
   receipt_number:
-    type: UnicodeText
+    type: Unicode(255)
   receipt_url:
-    type: UnicodeText
+    type: Unicode(255)
   refunded:
     type: Boolean
   refunds:
     type: JSON
   review:
-    type: UnicodeText
+    type: Unicode(255)
   shipping:
-    type: UnicodeText
+    type: Unicode(255)
+  source:
+    type: JSON
   source_transfer:
-    type: UnicodeText
+    type: Unicode(255)
   statement_descriptor:
-    type: UnicodeText
+    type: Unicode(255)
   statement_descriptor_suffix:
-    type: UnicodeText
+    type: Unicode(255)
   status:
-    type: UnicodeText
+    type: Unicode(255)
   transfer_data:
-    type: UnicodeText
+    type: Unicode(255)
   transfer_group:
-    type: UnicodeText
+    type: Unicode(255)
+implementations:
+  bi.Transaction:
+    transacted_at: created
+    customer_id: customer
