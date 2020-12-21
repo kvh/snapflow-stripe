@@ -32,9 +32,9 @@ def run_stripe_test(api_key: str):
     output = env.produce(
         clean_charges, g, target_storage=s, node_timelimit_seconds=0.01
     )
-    records = output.as_records_list()
+    records = output.as_records()
     assert len(records) >= 100
-    assert records[0]["amount"] == 100
+    assert records[0]["amount"] > 0
 
 
 if __name__ == "__main__":

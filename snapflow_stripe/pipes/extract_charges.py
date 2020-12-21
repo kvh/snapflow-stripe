@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 from requests.auth import HTTPBasicAuth
 from snapflow import PipeContext, pipe
-from snapflow.core.data_formats import RecordsList, RecordsListGenerator
+from snapflow.storage.data_formats import Records, RecordsIterator
 from snapflow.core.extraction.connection import JsonHttpApiConnection
 from snapflow.utils.common import ensure_datetime, utcnow
 
@@ -35,7 +35,7 @@ class ExtractStripeChargesState:
     config_class=ExtractStripeConfig,
     state_class=ExtractStripeChargesState,
 )
-def extract_charges(ctx: PipeContext) -> RecordsListGenerator[StripeChargeRaw]:
+def extract_charges(ctx: PipeContext) -> RecordsIterator[StripeChargeRaw]:
     """
     Stripe doesn't have a way to request by "updated at" times, so we must
     refresh old records according to our own logic. We use a "curing window"
