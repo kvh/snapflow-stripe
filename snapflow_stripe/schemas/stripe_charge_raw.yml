@@ -1,9 +1,9 @@
 name: StripeChargeRaw
 version: 1
 description: Raw Stripe charge object (no values modified)
-unique on:
+unique_on:
   - id
-on conflict: ReplaceWithNewer
+immutable: false
 fields:
   amount:
     type: BigInteger

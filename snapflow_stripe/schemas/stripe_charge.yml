@@ -1,9 +1,9 @@
 name: StripeCharge
 version: 1
 description: Stripe charge object (values conformed)
-unique on:
+unique_on:
   - id
-on conflict: ReplaceWithNewer
+immutable: false
 fields:
   amount:
     type: BigInteger
