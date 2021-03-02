@@ -12,7 +12,6 @@ TEST_API_KEY = "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
 def test_stripe(api_key):
     run_stripe_test(api_key)
 
-
 def run_stripe_test(api_key: str):
     import snapflow_stripe
 
@@ -26,7 +25,7 @@ def run_stripe_test(api_key: str):
     # Initial graph
     raw_charges = g.create_node(
         "stripe.extract_charges",
-        config={"api_key": api_key},
+        params={"api_key": api_key},
     )
     clean_charges = g.create_node("stripe.clean_charges", upstream=raw_charges)
     output = env.produce(

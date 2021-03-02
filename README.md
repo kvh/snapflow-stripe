@@ -14,7 +14,7 @@ g = Graph()
 
 raw_charges = g.create_node(
     "stripe.extract_charges",
-    config={"api_key": api_key},
+    params={"api_key": api_key},
 )
 stripe_charges = g.create_node(
     "stripe.clean_charges", upstream=raw_charges

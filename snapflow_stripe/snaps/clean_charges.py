@@ -3,13 +3,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pandas as pd
-from snapflow import DataBlock, pipe, sql_pipe
+from snapflow import DataBlock, Snap
 
 if TYPE_CHECKING:
     from snapflow_stripe import StripeCharge, StripeChargeRaw
 
 
-@pipe(
+@Snap(
     "clean_charges",
     module="stripe",
 )
