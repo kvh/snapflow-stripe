@@ -20,35 +20,35 @@ MIN_DATE = datetime(2006, 1, 1)
 
 
 @dataclass
-class ExtractStripeChargesState:
-    latest_extracted_at: datetime
+class ImportStripeChargesState:
+    latest_imported_at: datetime
 
 
 @Snap(
-    "extract_charges",
+    "import_charges",
     module="stripe",
-    state_class=ExtractStripeChargesState,
+    state_class=ImportStripeChargesState,
 )
 @Param("api_key", "str")
 @Param("curing_window_days", "int", default=90)
-def extract_charges(ctx: SnapContext) -> RecordsIterator[StripeChargeRaw]:
+def import_charges(ctx: SnapContext) -> RecordsIterator[StripeChargeRaw]:
     """
     Stripe doesn't have a way to request by "updated at" times, so we must
     refresh old records according to our own logic. We use a "curing window"
-    to re-extract records up to one year (the default) old.
+    to re-import records up to one year (the default) old.
     """
     api_key = ctx.get_param("api_key")
     curing_window_days = ctx.get_param("curing_window_days", 90)
-    latest_extracted_at = ctx.get_state_value("latest_extracted_at")
-    latest_extracted_at = ensure_datetime(latest_extracted_at)
+    latest_imported_at = ctx.get_state_value("latest_imported_at")
+    latest_imported_at = ensure_datetime(latest_imported_at)
     params = {
         "limit": 100,
     }
-    if latest_extracted_at:
-        # Extract only more recent than latest extracted at date, offset by a curing window
+    if latest_imported_at:
+        # Import only more recent than latest imported at date, offset by a curing window
         # (default 90 days) to capture updates to objects (refunds, etc)
         params["created[gt]"] = int(
-            (latest_extracted_at - timedelta(days=curing_window_days)).timestamp()
+            (latest_imported_at - timedelta(days=curing_window_days)).timestamp()
         )
     conn = JsonHttpApiConnection()
     endpoint_url = STRIPE_API_BASE_URL + "charges"
@@ -66,4 +66,4 @@ def extract_charges(ctx: SnapContext) -> RecordsIterator[StripeChargeRaw]:
             break
         params["starting_after"] = latest_object_id
     # We only update state if we have fetched EVERYTHING available as of now
-    ctx.emit_state_value("latest_extracted_at", utcnow())
+    ctx.emit_state_value("latest_imported_at", utcnow())

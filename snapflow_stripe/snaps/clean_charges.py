@@ -12,6 +12,7 @@ if TYPE_CHECKING:
 @Snap(
     "clean_charges",
     module="stripe",
+    display_name="Clean Stripe charges"
 )
 def clean_charges(charges: DataBlock[StripeChargeRaw]) -> DataBlock[StripeCharge]:
     df = charges.as_dataframe()

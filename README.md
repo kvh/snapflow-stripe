@@ -13,7 +13,7 @@ import snapflow_stripe
 g = Graph()
 
 raw_charges = g.create_node(
-    "stripe.extract_charges",
+    "stripe.import_charges",
     params={"api_key": api_key},
 )
 stripe_charges = g.create_node(
