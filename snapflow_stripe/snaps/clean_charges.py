@@ -9,11 +9,7 @@ if TYPE_CHECKING:
     from snapflow_stripe import StripeCharge, StripeChargeRaw
 
 
-@Snap(
-    "clean_charges",
-    module="stripe",
-    display_name="Clean Stripe charges"
-)
+@Snap("clean_charges", module="stripe", display_name="Clean Stripe charges")
 def clean_charges(charges: DataBlock[StripeChargeRaw]) -> DataBlock[StripeCharge]:
     df = charges.as_dataframe()
     df["created"] = pd.to_datetime(df["created"], unit="s")

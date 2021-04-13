@@ -1,9 +1,9 @@
 from pprint import pprint
 
 import pytest
+from dcp.storage.database.utils import get_tmp_sqlite_db_url
 from snapflow import Environment
 from snapflow.core.graph import Graph
-from dcp.storage.database.utils import get_tmp_sqlite_db_url
 
 TEST_API_KEY = "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
 

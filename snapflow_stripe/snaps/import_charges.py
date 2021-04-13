@@ -2,13 +2,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
-from typing import Iterator, TYPE_CHECKING
+from typing import TYPE_CHECKING, Iterator
 
+from dcp.data_format import Records
 from dcp.utils.common import ensure_datetime, utcnow
 from requests.auth import HTTPBasicAuth
-from snapflow import SnapContext, Snap, Param
+from snapflow import Param, Snap, SnapContext
 from snapflow.core.extraction.connection import JsonHttpApiConnection
-
 
 if TYPE_CHECKING:
     from snapflow_stripe import StripeChargeRaw
