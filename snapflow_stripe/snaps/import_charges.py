@@ -2,13 +2,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
-from typing import TYPE_CHECKING
+from typing import Iterator, TYPE_CHECKING
 
+from dcp.utils.common import ensure_datetime, utcnow
 from requests.auth import HTTPBasicAuth
 from snapflow import SnapContext, Snap, Param
-from snapflow.storage.data_formats import Records, RecordsIterator
 from snapflow.core.extraction.connection import JsonHttpApiConnection
-from snapflow.utils.common import ensure_datetime, utcnow
+
 
 if TYPE_CHECKING:
     from snapflow_stripe import StripeChargeRaw
@@ -16,7 +16,6 @@ if TYPE_CHECKING:
 
 STRIPE_API_BASE_URL = "https://api.stripe.com/v1/"
 MIN_DATE = datetime(2006, 1, 1)
-
 
 
 @dataclass
@@ -32,7 +31,7 @@ class ImportStripeChargesState:
 )
 @Param("api_key", "str")
 @Param("curing_window_days", "int", default=90)
-def import_charges(ctx: SnapContext) -> RecordsIterator[StripeChargeRaw]:
+def import_charges(ctx: SnapContext) -> Iterator[Records[StripeChargeRaw]]:
     """
     Stripe doesn't have a way to request by "updated at" times, so we must
     refresh old records according to our own logic. We use a "curing window"

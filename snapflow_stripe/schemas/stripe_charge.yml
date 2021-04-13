@@ -6,97 +6,97 @@ unique_on:
 immutable: false
 fields:
   amount:
-    type: BigInteger
+    type: Integer
   amount_captured:
-    type: BigInteger
+    type: Integer
   amount_refunded:
-    type: BigInteger
+    type: Integer
   application:
-    type: Unicode(255)
+    type: Text
   application_fee:
-    type: Unicode(255)
+    type: Text
   application_fee_amount:
-    type: Unicode(255)
+    type: Text
   balance_transaction:
-    type: Unicode(255)
+    type: Text
   billing_details:
-    type: JSON
+    type: Json
   calculated_statement_descriptor:
-    type: Unicode(255)
+    type: Text
   captured:
     type: Boolean
   created:
     type: DateTime
   currency:
-    type: Unicode(255)
+    type: Text
   customer:
-    type: Unicode(255)
+    type: Text
   description:
-    type: Unicode(255)
+    type: Text
   destination:
-    type: Unicode(255)
+    type: Text
   dispute:
-    type: Unicode(255)
+    type: Text
   disputed:
     type: Boolean
   failure_code:
-    type: Unicode(255)
+    type: Text
   failure_message:
-    type: Unicode(255)
+    type: Text
   fraud_details:
-    type: JSON
+    type: Json
   id:
-    type: Unicode(255)
+    type: Text
   invoice:
-    type: Unicode(255)
+    type: Text
   livemode:
     type: Boolean
   metadata:
-    type: JSON
+    type: Json
   object:
-    type: Unicode(255)
+    type: Text
   on_behalf_of:
-    type: Unicode(255)
+    type: Text
   order:
-    type: Unicode(255)
+    type: Text
   outcome:
-    type: Unicode(255)
+    type: Text
   paid:
     type: Boolean
   payment_intent:
-    type: Unicode(255)
+    type: Text
   payment_method:
-    type: Unicode(255)
+    type: Text
   payment_method_details:
-    type: JSON
+    type: Json
   receipt_email:
-    type: Unicode(255)
+    type: Text
   receipt_number:
-    type: Unicode(255)
+    type: Text
   receipt_url:
-    type: Unicode(255)
+    type: Text
   refunded:
     type: Boolean
   refunds:
-    type: JSON
+    type: Json
   review:
-    type: Unicode(255)
+    type: Text
   shipping:
-    type: Unicode(255)
+    type: Text
   source:
-    type: JSON
+    type: Json
   source_transfer:
-    type: Unicode(255)
+    type: Text
   statement_descriptor:
-    type: Unicode(255)
+    type: Text
   statement_descriptor_suffix:
-    type: Unicode(255)
+    type: Text
   status:
-    type: Unicode(255)
+    type: Text
   transfer_data:
-    type: Unicode(255)
+    type: Text
   transfer_group:
-    type: Unicode(255)
+    type: Text
 implementations:
   bi.Transaction:
     transacted_at: created

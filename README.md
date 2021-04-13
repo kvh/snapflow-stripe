@@ -20,7 +20,7 @@ stripe_charges = g.create_node(
     "stripe.clean_charges", upstream=raw_charges
 )
 output = produce(
-    stripe_charges, g, node_timelimit_seconds=5, modules=[snapflow_stripe]
+    stripe_charges, g, execution_timelimit_seconds=5, modules=[snapflow_stripe]
 )
 records = output.as_records()
 ```

@@ -3,7 +3,7 @@ from pprint import pprint
 import pytest
 from snapflow import Environment
 from snapflow.core.graph import Graph
-from snapflow.testing.utils import get_tmp_sqlite_db_url
+from dcp.storage.database.utils import get_tmp_sqlite_db_url
 
 TEST_API_KEY = "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
 
@@ -11,6 +11,7 @@ TEST_API_KEY = "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
 @pytest.mark.parametrize("api_key", [(TEST_API_KEY)])
 def test_stripe(api_key):
     run_stripe_test(api_key)
+
 
 def run_stripe_test(api_key: str):
     import snapflow_stripe
@@ -28,10 +29,10 @@ def run_stripe_test(api_key: str):
         params={"api_key": api_key},
     )
     clean_charges = g.create_node("stripe.clean_charges", upstream=raw_charges)
-    output = env.produce(
-        clean_charges, g, target_storage=s, node_timelimit_seconds=0.01
+    blocks = env.produce(
+        clean_charges, g, target_storage=s, execution_timelimit_seconds=0.01
     )
-    records = output.as_records()
+    records = blocks[0].as_records()
     assert len(records) >= 100
     assert records[0]["amount"] > 0
 
