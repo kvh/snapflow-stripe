@@ -1,4 +1,5 @@
 name: StripeChargeRaw
+namespace: stripe
 version: 1
 description: Raw Stripe charge object (no values modified)
 unique_on:

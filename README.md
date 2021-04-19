@@ -8,7 +8,7 @@ Stripe module for the [snapflow](https://github.com/kvh/snapflow) framework.
 
 ```python
 from snapflow import Graph, produce
-import snapflow_stripe
+from snapflow_stripe import module as stripe
 
 g = Graph()
 
@@ -19,8 +19,8 @@ raw_charges = g.create_node(
 stripe_charges = g.create_node(
     "stripe.clean_charges", upstream=raw_charges
 )
-output = produce(
-    stripe_charges, g, execution_timelimit_seconds=5, modules=[snapflow_stripe]
+blocks = produce(
+    stripe_charges, g, execution_timelimit_seconds=5, modules=[stripe]
 )
-records = output.as_records()
+records = blocks[0].as_records()
 ```

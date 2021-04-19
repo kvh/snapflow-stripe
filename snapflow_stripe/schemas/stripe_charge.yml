@@ -1,4 +1,5 @@
 name: StripeCharge
+namespace: stripe
 version: 1
 description: Stripe charge object (values conformed)
 unique_on:

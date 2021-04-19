@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Iterator
 from dcp.data_format import Records
 from dcp.utils.common import ensure_datetime, utcnow
 from requests.auth import HTTPBasicAuth
-from snapflow import Param, Snap, SnapContext
+from snapflow import Function, FunctionContext
 from snapflow.core.extraction.connection import JsonHttpApiConnection
 
 if TYPE_CHECKING:
@@ -23,22 +23,20 @@ class ImportStripeChargesState:
     latest_imported_at: datetime
 
 
-@Snap(
+@Function(
     "import_charges",
-    module="stripe",
+    namespace="stripe",
     state_class=ImportStripeChargesState,
     display_name="Import Stripe charges",
 )
-@Param("api_key", "str")
-@Param("curing_window_days", "int", default=90)
-def import_charges(ctx: SnapContext) -> Iterator[Records[StripeChargeRaw]]:
+def import_charges(
+    ctx: FunctionContext, api_key: str, curing_window_days: int = 90
+) -> Iterator[Records[StripeChargeRaw]]:
     """
     Stripe doesn't have a way to request by "updated at" times, so we must
     refresh old records according to our own logic. We use a "curing window"
     to re-import records up to one year (the default) old.
     """
-    api_key = ctx.get_param("api_key")
-    curing_window_days = ctx.get_param("curing_window_days", 90)
     latest_imported_at = ctx.get_state_value("latest_imported_at")
     latest_imported_at = ensure_datetime(latest_imported_at)
     params = {

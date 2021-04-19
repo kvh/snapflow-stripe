@@ -14,14 +14,14 @@ def test_stripe(api_key):
 
 
 def run_stripe_test(api_key: str):
-    import snapflow_stripe
+    from snapflow_stripe import module as stripe
 
     if not api_key:
         api_key = TEST_API_KEY
     env = Environment(metadata_storage="sqlite://")
     g = Graph(env)
     s = env.add_storage(get_tmp_sqlite_db_url())
-    env.add_module(snapflow_stripe)
+    env.add_module(stripe)
 
     # Initial graph
     raw_charges = g.create_node(
