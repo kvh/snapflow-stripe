@@ -8,7 +8,7 @@ Stripe module for the [snapflow](https://github.com/kvh/snapflow) framework.
 
 ```python
 from snapflow import Graph, produce
-from snapflow_stripe import module as stripe
+from snapflow_stripe from module import module as stripe
 
 g = Graph()
 
