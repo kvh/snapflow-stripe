@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Iterator
 from dcp.data_format import Records
 from dcp.utils.common import ensure_datetime, utcnow
 from requests.auth import HTTPBasicAuth
-from snapflow import Function, FunctionContext
+from snapflow import datafunction, Context, DataBlock
 from snapflow.core.extraction.connection import JsonHttpApiConnection
 
 if TYPE_CHECKING:
@@ -23,14 +23,14 @@ class ImportStripeChargesState:
     latest_imported_at: datetime
 
 
-@Function(
+@datafunction(
     "import_charges",
     namespace="stripe",
     state_class=ImportStripeChargesState,
     display_name="Import Stripe charges",
 )
 def import_charges(
-    ctx: FunctionContext, api_key: str, curing_window_days: int = 90
+    ctx: Context, api_key: str, curing_window_days: int = 90
 ) -> Iterator[Records[StripeChargeRaw]]:
     """
     Stripe doesn't have a way to request by "updated at" times, so we must
