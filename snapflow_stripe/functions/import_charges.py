@@ -46,7 +46,7 @@ def import_charges(
         # Import only more recent than latest imported at date, offset by a curing window
         # (default 90 days) to capture updates to objects (refunds, etc)
         params["created[gt]"] = int(
-            (latest_imported_at - timedelta(days=curing_window_days)).timestamp()
+            (latest_imported_at - timedelta(days=int(curing_window_days))).timestamp()
         )
     conn = JsonHttpApiConnection()
     endpoint_url = STRIPE_API_BASE_URL + "charges"
