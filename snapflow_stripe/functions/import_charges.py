@@ -50,6 +50,7 @@ def import_charges(
         )
     conn = JsonHttpApiConnection()
     endpoint_url = STRIPE_API_BASE_URL + "charges"
+    all_done = False
     while ctx.should_continue():
         resp = conn.get(endpoint_url, params, auth=HTTPBasicAuth(api_key, ""))
         json_resp = resp.json()
@@ -57,11 +58,14 @@ def import_charges(
         records = json_resp["data"]
         if len(records) == 0:
             # All done
+            all_done = True
             break
         yield records
         latest_object_id = records[-1]["id"]
         if not json_resp.get("has_more"):
+            all_done = True
             break
         params["starting_after"] = latest_object_id
     # We only update state if we have fetched EVERYTHING available as of now
-    ctx.emit_state_value("latest_imported_at", utcnow())
+    if all_done:
+        ctx.emit_state_value("latest_imported_at", utcnow())
