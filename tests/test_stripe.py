@@ -30,7 +30,7 @@ def run_stripe_test(api_key: str):
     )
     clean_charges = g.create_node("stripe.clean_charges", upstream=raw_charges)
     blocks = env.produce(
-        clean_charges, g, target_storage=s, execution_timelimit_seconds=0.01
+        clean_charges.key, g, target_storage=s, execution_timelimit_seconds=0.01
     )
     records = blocks[0].as_records()
     assert len(records) >= 100
