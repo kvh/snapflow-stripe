@@ -2,8 +2,7 @@ from pprint import pprint
 
 import pytest
 from dcp.storage.database.utils import get_tmp_sqlite_db_url
-from snapflow import Environment
-from snapflow.core.graph import Graph
+from snapflow import Environment, DataspaceCfg, GraphCfg
 
 TEST_API_KEY = "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
 
@@ -18,21 +17,24 @@ def run_stripe_test(api_key: str):
 
     if not api_key:
         api_key = TEST_API_KEY
-    env = Environment(metadata_storage="sqlite://")
-    g = Graph(env)
-    s = env.add_storage(get_tmp_sqlite_db_url())
+    storage = get_tmp_sqlite_db_url()
+    env = Environment(DataspaceCfg(metadata_storage="sqlite://", storages=[storage]))
     env.add_module(stripe)
 
     # Initial graph
-    raw_charges = g.create_node(
-        "stripe.import_charges",
+    raw_charges = GraphCfg(
+        key="import_charges",
+        function="stripe.import_charges",
         params={"api_key": api_key},
     )
-    clean_charges = g.create_node("stripe.clean_charges", upstream=raw_charges)
-    blocks = env.produce(
-        clean_charges.key, g, target_storage=s, execution_timelimit_seconds=0.01
+    clean_charges = GraphCfg(
+        key="clean_charges", function="stripe.clean_charges", input="import_charges"
     )
-    records = blocks[0].as_records()
+    g = GraphCfg(nodes=[raw_charges, clean_charges])
+    results = env.produce(
+        clean_charges.key, g, target_storage=storage, execution_timelimit_seconds=1
+    )
+    records = results[0].stdout().as_records()
     assert len(records) >= 100
     assert records[0]["amount"] > 0
 
