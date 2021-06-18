@@ -71,7 +71,7 @@ def stripe_importer(
             all_done = True
             break
 
-        # This is to handle subscription_items case of sub-api calls
+        # Return acutal data
         yield records
 
         latest_object_id = records[-1]["id"]
