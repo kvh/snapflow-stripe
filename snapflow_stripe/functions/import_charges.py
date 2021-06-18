@@ -79,7 +79,7 @@ def stripe_importer(
             all_done = True
             break
         params["starting_after"] = latest_object_id
-        ctx.emit_state_value("current_starting_after", current_starting_after)
+        ctx.emit_state_value("current_starting_after", latest_object_id)
     else:
         # Don't update any state, we just timed out
         return
