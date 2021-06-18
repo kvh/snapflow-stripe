@@ -28,4 +28,6 @@ MIN_DATE = datetime(2006, 1, 1)
 def import_refunds(
     ctx: Context, api_key: str, curing_window_days: int = 90
 ) -> Iterator[Records[StripeRefundRaw]]:
-    yield from stripe_importer(ctx, api_key, curing_window_days, "refunds")
+    yield from stripe_importer(
+        "refunds", ctx, api_key, curing_window_days=curing_window_days
+    )
